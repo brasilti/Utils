@@ -1,25 +1,40 @@
 Utils
 -----
 
-This project intends to isolate the utilities part of any system.
 
-Usage
------
+O que Ž isso?
+-------------
+Este projeto reune classes utilitarias.
+Uma classe utilitaria agrupa metodos estaticos com o objetivo de facilitar o uso de um determinado tema.	
 
-ReflectionUtil
+
+Documentacao
+------------
+Os temas abordados por esta versao sao:
+Colecao - por meio da classe CollectionUtil e possivel manipular colecoes. Converter uma serie de argumentos em uma lista e um exemplo de metodo dessa classe. 
+Reflexao - por meio da classe ReflectionUtil e possivel fazer uso de reflexao. Retornar o valor de um determinado atributo e um exemplo de metodo dessa classe.
+
+Para uso dessas classes em um projeto, deve-se apenas adicionar o arquivo Utils.jar ao seu classpath.
+
+
+Especificacoes
 --------------
-public static boolean isStatic(Field field);
-public static boolean isTransient(Field field);
-public static boolean isPersistent(Field field);
-public static List<Field> getPersistentFields(Class<?> klass);
-public static boolean implementz(Class<?> klass, Class<?> interfaceClass);
-public static <T> Object get(Field field, T instance);
-public static <T> void set(Object value, Field field, T instance);
-public static <T> void copy(T origin, T target);
-public static Class<?> getTypeOfElements(Field field);
-public static boolean isCollection(Class<?> klass);
-public static boolean isAnnotated(Class<?> klass, Class<? extends Annotation> annotationClass);
-public static boolean isAnnotated(Field field, Class<? extends Annotation> annotationClass);
-public static boolean hasField(Class<?> klass, String fieldName);
-public static Field getField(String fieldName, Class<?> klass);
-public static boolean hasConstructor(Class<?> klass);
+JPA 2.0
+
+
+Licenca
+-------
+Veja o arquivo LICENSE.
+
+
+Autores 
+-------
+Benedito Barbosa Ribeiro Neto
+Christian Linhares Peixoto
+Mauricio da Silva Marinho
+
+
+Contato
+-------
+atendimento@brasilti.com.br
+

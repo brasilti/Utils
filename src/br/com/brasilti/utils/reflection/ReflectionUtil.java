@@ -249,14 +249,14 @@ public class ReflectionUtil {
 	}
 
 	/**
-	 * Indica que a classe possui um construtor padrao sem argumentos.
+	 * Indica que a classe possui um construtor padrao sem argumentos. Construtores privados tambem sao considerados.
 	 * 
 	 * @param klass
 	 * @return true se a classe possui um construtor.
 	 */
 	public static boolean hasConstructor(Class<?> klass) {
 		try {
-			return klass.getConstructor() != null;
+			return klass.getDeclaredConstructor() != null;
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {

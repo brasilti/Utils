@@ -19,10 +19,10 @@ import javax.persistence.Version;
 
 import org.junit.Test;
 
-import br.com.brasilti.utils.reflection.ReflectionUtil;
 import br.com.brasilti.utils.reflection.examples.ClasseComAtEntity;
 import br.com.brasilti.utils.reflection.examples.ClasseComAtributosPadrao;
 import br.com.brasilti.utils.reflection.examples.ClasseComConstrutorPadrao;
+import br.com.brasilti.utils.reflection.examples.ClasseComConstrutorPadraoPrivado;
 import br.com.brasilti.utils.reflection.examples.ClasseComEquals;
 import br.com.brasilti.utils.reflection.examples.ClasseComId;
 import br.com.brasilti.utils.reflection.examples.ClasseNaoSerializavel;
@@ -272,6 +272,11 @@ public class ReflectionUtilTest {
 	@Test
 	public void deveRetornarVerdadeiroQuandoUmaClasseTiverUmConstrutorPadrao() {
 		assertTrue(ReflectionUtil.hasConstructor(ClasseComConstrutorPadrao.class));
+	}
+
+	@Test
+	public void deveRetornarVerdadeiroQuandoUmaClasseTiverUmConstrutorPadraoPrivado() {
+		assertTrue(ReflectionUtil.hasConstructor(ClasseComConstrutorPadraoPrivado.class));
 	}
 
 	@Test

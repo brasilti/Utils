@@ -19,6 +19,7 @@ import javax.persistence.Version;
 
 import org.junit.Test;
 
+import br.com.brasilti.utils.enums.ErrorEnum;
 import br.com.brasilti.utils.reflection.examples.ClasseComAtEntity;
 import br.com.brasilti.utils.reflection.examples.ClasseComAtributosPadrao;
 import br.com.brasilti.utils.reflection.examples.ClasseComConstrutorPadrao;
@@ -166,11 +167,23 @@ public class ReflectionUtilTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deveLancarUmaExcecaoSeAsInstanciasForemDeClassesDiferentes() {
+	public void deveLancarUmaExcecaoSeAsInstanciasForemDeClassesDiferentesException() {
 		ClasseComAtributosPadrao origin = new ClasseComAtributosPadrao();
 		String target = new String();
 
-		ReflectionUtil.copy(origin, target);
+		ReflectionUtil.copy(origin, target);		
+	}
+	
+	@Test
+	public void deveLancarUmaExcecaoSeAsInstanciasForemDeClassesDiferentes() {
+		ClasseComAtributosPadrao origin = new ClasseComAtributosPadrao();
+		String target = new String();
+		
+		try {
+			ReflectionUtil.copy(origin, target);				
+		} catch (Exception e) {
+			assertEquals(ErrorEnum.DIFFERENT_CLASSES.getMessage(), e.getMessage());
+		}
 	}
 
 	@Test
@@ -203,10 +216,21 @@ public class ReflectionUtilTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deveLancarUmaExcecaoSeOAtributoNaoForUmaColecao() {
+	public void deveLancarUmaExcecaoSeOAtributoNaoForUmaColecaoException() {
 		Field field = this.getField("atributo", ReflectionUtilTest.class);
 
 		ReflectionUtil.getTypeOfElements(field);
+	}
+	
+	@Test
+	public void deveLancarUmaExcecaoSeOAtributoNaoForUmaColecao() {
+		Field field = this.getField("atributo", ReflectionUtilTest.class);
+	
+		try {
+			ReflectionUtil.getTypeOfElements(field);			
+		} catch (Exception e) {
+			assertEquals(ErrorEnum.NOT_COLLECTION_FIELD.getMessage(), e.getMessage());
+		}
 	}
 
 	@Test
@@ -248,6 +272,16 @@ public class ReflectionUtilTest {
 	public void deveRetornarVerdadeiroQuandoUmAtributoTiverUmaDeterminadaAnotacao() {
 		assertTrue(ReflectionUtil.isAnnotated(ReflectionUtil.getField("id", ReflectionUtilTest.class), Id.class));
 	}
+	
+	@Test
+	public void deveRetornarFalsoQuandoUmMetodoNaoTiverUmaDeterminadaAnotacao() {
+		assertFalse(ReflectionUtil.isAnnotated(ReflectionUtil.getMethod("getField", ReflectionUtilTest.class), Test.class));
+	}
+	
+	@Test
+	public void deveRetornarVerdadeiroQuandoUmMetodoTiverUmaDeterminadaAnotacao() {
+		assertTrue(ReflectionUtil.isAnnotated(ReflectionUtil.getMethod("deveRetornarVerdadeiroQuandoUmMetodoTiverUmaDeterminadaAnotacao", ReflectionUtilTest.class), Test.class));
+	}
 
 	@Test
 	public void deveRetornarFalsoQuandoUmaClasseNaoTiverUmDeterminadoAtributo() {
@@ -262,6 +296,11 @@ public class ReflectionUtilTest {
 	@Test
 	public void deveRetornarUmDeterminadoAtributoDeUmaClasse() {
 		assertNotNull(ReflectionUtil.getField("atributo", ReflectionUtilTest.class));
+	}
+	
+	@Test
+	public void deveRetornarUmDeterminadoMetodoDeUmaClasse() {
+		assertNotNull(ReflectionUtil.getMethod("deveRetornarUmDeterminadoMetodoDeUmaClasse", ReflectionUtilTest.class));
 	}
 
 	@Test

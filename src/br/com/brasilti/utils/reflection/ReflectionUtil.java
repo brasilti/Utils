@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import br.com.brasilti.utils.enums.ErrorEnum;
+
 /**
  * Agrupa metodos estaticos com o objetivo de facilitar o uso de reflexao.
  * 
@@ -164,7 +166,7 @@ public class ReflectionUtil {
 		Class<?> targetClass = target.getClass();
 
 		if (!originClass.equals(targetClass)) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(ErrorEnum.DIFFERENT_CLASSES.getMessage());
 		}
 
 		List<Field> fields = getPersistentFields(targetClass);
@@ -185,7 +187,7 @@ public class ReflectionUtil {
 	 */
 	public static Class<?> getTypeOfElements(Field field) {
 		if (!isCollection(field.getType())) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(ErrorEnum.NOT_COLLECTION_FIELD.getMessage());
 		}
 
 		ParameterizedType type = (ParameterizedType) field.getGenericType();
@@ -230,19 +232,45 @@ public class ReflectionUtil {
 	}
 
 	/**
+	 * Indica que o metodo esta anotado por uma determinada anotacao.
+	 * 
+	 * @param method
+	 * @param annotationClass
+	 * @return true se o metodo esta anotado pela anotacao.
+	 */
+	public static boolean isAnnotated(Method method, Class<? extends Annotation> annotationClass) {
+		return method.getAnnotation(annotationClass) != null;
+	}
+
+	/**
 	 * Retorna o atributo de uma determinada classe.
 	 * 
 	 * @param fieldName
 	 * @param klass
-	 * @return null se {@link SecurityException} ou {@link NoSuchFieldException} for capturada.
+	 * @return null se o atributo nao for encontrado.
 	 */
 	public static Field getField(String fieldName, Class<?> klass) {
-		try {
-			return klass.getDeclaredField(fieldName);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
+		for (Field field : klass.getDeclaredFields()) {
+			if (field.getName().equals(fieldName)) {
+				return field;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Retorna o metodo de uma determinada classe.
+	 * 
+	 * @param methodName
+	 * @param klass
+	 * @return null se o metodo nao for encontrado.
+	 */
+	public static Method getMethod(String methodName, Class<?> klass) {
+		for (Method method : klass.getDeclaredMethods()) {
+			if (method.getName().equals(methodName)) {
+				return method;
+			}
 		}
 
 		return null;
